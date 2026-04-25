@@ -1,0 +1,168 @@
+---
+import TestimonialCard from "./TestimonialCard.astro";
+import user1 from "../assets/images/user1.png";
+import user2 from "../assets/images/user2.png";
+import user3 from "../assets/images/user3.png";
+import user4 from "../assets/images/user4.png";
+
+const testimonials = [
+    {
+    name: "John Doe",
+    role: "Homeowner",
+    image: user1,
+    alt: "John Doe",
+    text: "Smooth process and amazing service!",
+    },
+    {
+    name: "Abby Lee",
+    role: "Investor",
+    image: user2,
+    alt: "Abby Lee",
+    text: "They helped me find the perfect property.",
+    },
+    {
+    name: "Sophia Chen",
+    role: "Buyer",
+    image: user3,
+    alt: "Sophia Chen",
+    text: "Highly professional and trustworthy.",
+    },
+    {
+    name: "Daniel Kim",
+    role: "Renter",
+    image: user4,
+    alt: "Daniel Kim",
+    text: "Fast, easy, and stress-free experience.",
+    },
+];
+---
+
+<section class="relative contain-content z-30 bg-bg py-16 md:py-24 opacity-0 translate-y-3 animate-[fadeIn_0.6s_forwards] transition-transform duration-300 scroll-mt-10">
+  <div class="max-w-6xl mx-auto px-4 md:px-8 text-center">
+    <h2 class="font-heading text-3xl md:text-4xl text-primary mb-12">
+      What Our Clients Say
+    </h2>
+
+    <div class="relative flex items-center justify-center overflow-hidden w-full max-w-4xl mx-auto min-h-96">
+
+        {testimonials.map((t, i) => (
+            <div
+            class={`testimonial-item absolute transition-all duration-300 ease-in-out`}
+            data-index={i}
+            >
+            <TestimonialCard
+                name={t.name}
+                role={t.role}
+                image={t.image}
+                text={t.text}
+                rating={5}
+                variant="center"
+            />
+            </div>
+        ))}
+    </div>
+
+    <div class="flex justify-center mt-8 gap-2" id="dots"></div>
+
+    </div>
+</section>
+
+<script is:inline>
+    document.addEventListener("DOMContentLoaded", () => {
+
+    const items = document.querySelectorAll(".testimonial-item");
+    const dotsContainer = document.getElementById("dots");
+
+    let index = 0;
+    const total = items.length;
+
+    function showSlide(i) {
+        items.forEach((el, idx) => {
+            el.className =
+            "testimonial-item absolute transition-all duration-500 ease-in-out";
+
+            const prev = (i - 1 + total) % total;
+            const next = (i + 1) % total;
+
+            if (idx === i) {
+            el.classList.add(
+                "scale-100",
+                "opacity-100",
+                "z-20",
+                "translate-x-0",
+                "hover:-translate-y-2",
+            );
+            } else if (idx === prev) {
+            el.classList.add(
+                "scale-75",
+                "opacity-50",
+                "z-10",
+                "-translate-x-50"
+            );
+            } else if (idx === next) {
+
+            el.classList.add(
+                "scale-75",
+                "opacity-50",
+                "z-10",
+                "translate-x-50"
+            );
+            } else {
+            el.classList.add("opacity-0", "scale-50", "z-0");
+            }
+        });
+
+        updateDots();
+    }
+
+    let dots = [];
+
+    function initDots() {
+        for (let i = 0; i < total; i++) {
+            const dot = document.createElement("span");
+
+            dot.className =
+            "w-2 h-2 rounded-full bg-primary/30 scale-100 transition-all duration-300 ease-in-out";
+
+            dotsContainer.appendChild(dot);
+            dots.push(dot);
+        }
+    }
+
+    function updateDots() {
+        dots.forEach((dot, i) => {
+            dot.classList.remove(
+            "scale-150",
+            "scale-110",
+            "scale-100",
+            "bg-primary",
+            "bg-primary/50",
+            "bg-primary/30"
+            );
+
+            const distance = Math.abs(i - index);
+            const isNeighbor =
+            distance === 1 || distance === total - 1;
+
+            if (i === index) {
+            dot.classList.add("bg-primary", "scale-150");
+            } else if (isNeighbor) {
+            dot.classList.add("bg-primary/50", "scale-110");
+            } else {
+            dot.classList.add("bg-primary/30", "scale-100");
+            }
+        });
+    }
+
+    function nextSlide() {
+    index = (index + 1) % total;
+    showSlide(index);
+    }
+
+    showSlide(index);
+    initDots();
+    updateDots();
+
+    setInterval(nextSlide, 4000);
+    });
+</script>

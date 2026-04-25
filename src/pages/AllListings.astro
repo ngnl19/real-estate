@@ -1,0 +1,14 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ListingHero from "../components/ListingHero.astro";
+import FeaturedListingGrid from "../components/FeaturedListingGrid.astro";
+import ListingGrid from "../components/ListingGrid.astro";
+import Footer from "../components/Footer.astro"
+---
+
+<Layout>
+    <ListingHero />
+    <FeaturedListingGrid isVisible={false} />
+    <ListingGrid />
+    <Footer />
+</Layout>

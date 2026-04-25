@@ -1,0 +1,51 @@
+---
+import { Image } from "astro:assets";
+
+const { id, image, alt, price, address, beds, baths, sqft, tag, load = "lazy" } = Astro.props;
+---
+
+<div class="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition duration-300 hover:scale-[1.02]">
+
+  <div class="relative">
+    <Image src={image} alt={alt} class="w-full h-48 object-cover" loading={load} width="800" height="600" />
+
+    {tag && (
+      <span class="absolute top-4 left-4 bg-accent text-white text-xs px-3 py-1 rounded-full">
+        {tag}
+      </span>
+    )}
+  </div>
+
+  <div class="p-5">
+    <h3 class="text-xl font-semibold text-primary mb-1">{price}</h3>
+    <p class="text-sm text-muted mb-4">{address}</p>
+
+    <div class="flex justify-between items-center text-sm text-gray-600 mb-4">
+
+      <div class="flex items-center gap-1">
+        <span class="material-symbols-outlined text-base">bed</span>
+        <span>{beds}</span>
+      </div>
+
+      <div class="flex items-center gap-1">
+        <span class="material-symbols-outlined text-base">bathtub</span>
+        <span>{baths}</span>
+      </div>
+
+      <div class="flex items-center gap-1">
+        <span class="material-symbols-outlined text-base">straighten</span>
+        <span>{sqft} sqft</span>
+      </div>
+
+    </div>
+
+    <a
+      href={`/listings/${id}`}
+      target="_blank"
+      class="block w-full text-center bg-accent text-white py-2 rounded-xl hover:bg-[#b89665]"
+    >
+      View Details
+    </a>
+  </div>
+
+</div>

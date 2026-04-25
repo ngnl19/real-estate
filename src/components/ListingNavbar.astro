@@ -1,0 +1,145 @@
+---
+const { show } = Astro.props
+---
+
+<section class={show ? 'relative z-45 w-full mt-5 py-6 opacity-0 translate-y-3 animate-[fadeIn_0.6s_forwards] transition-transform duration-300' : 'hidden'}>
+  <div class="max-w-7xl mx-auto px-4 md:px-8">
+
+    <div class="flex flex-col md:flex-row gap-4 md:items-center">
+
+      <div class="relative flex-1">
+        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-muted text-[20px]">
+          search
+        </span>
+        <input
+          type="text"
+          name="search"
+          autocomplete="off"
+          placeholder="Search by location, address..."
+          class="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 bg-white text-text placeholder:text-muted shadow-sm
+                 focus:outline-none focus:ring-2 focus:ring-accent/40 transition"
+        />
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-4">
+
+        <div class="relative">
+          <button
+            data-toggle="dropdown"
+            class="flex items-center justify-between gap-2 w-full sm:w-52 px-4 py-3 rounded-xl border border-gray-200 bg-white text-text shadow-sm
+                   hover:border-accent transition focus:outline-none cursor-pointer"
+          >
+            <span data-label>Sort by Price</span>
+            <span class="material-symbols-outlined text-[20px] text-muted">expand_more</span>
+          </button>
+
+          <div
+            data-dropdown
+            class="hidden absolute z-46 mt-2 w-full bg-white border border-gray-200 rounded-xl shadow-md overflow-hidden opacity-0 translate-y-2 transition-all duration-200"
+          >
+            <ul class="py-2 text-sm text-text">
+                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer">All</li>
+                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer">Low to High</li>
+                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer">High to Low</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="relative">
+          <button
+            data-toggle="dropdown"
+            class="flex items-center justify-between gap-2 w-full sm:w-52 px-4 py-3 rounded-xl border border-gray-200 bg-white text-text shadow-sm
+                   hover:border-accent transition focus:outline-none cursor-pointer"
+          >
+            <span data-label>All</span>
+            <span class="material-symbols-outlined text-[20px] text-muted">expand_more</span>
+          </button>
+
+          <div
+            data-dropdown
+            class="hidden absolute mt-2 w-full bg-white border border-gray-200 rounded-xl shadow-md overflow-hidden opacity-0 translate-y-2 transition-all duration-200"
+          >
+            <ul class="py-2 text-sm text-text">
+                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer">All</li>
+                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer">New</li>
+                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer">Rental</li>
+                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer">Featured</li>
+                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer">Relevance</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script is:inline>
+    function openDropdown(dropdown) {
+        dropdown.classList.remove('hidden');
+        requestAnimationFrame(() => {
+        dropdown.classList.remove('opacity-0', 'translate-y-2');
+        dropdown.classList.add('opacity-100', 'translate-y-0');
+        });
+    }
+
+    function closeDropdown(dropdown) {
+        dropdown.classList.add('opacity-0', 'translate-y-2');
+        dropdown.classList.remove('opacity-100', 'translate-y-0');
+        dropdown.addEventListener('transitionend', () => {
+        dropdown.classList.add('hidden');
+        }, { once: true });
+    }
+
+    function closeAllDropdowns(except = null) {
+        document.querySelectorAll('[data-dropdown]').forEach(drop => {
+        if (drop !== except) closeDropdown(drop);
+        });
+    }
+
+    document.querySelectorAll('[data-toggle="dropdown"]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        const dropdown = btn.nextElementSibling;
+        const isOpen = !dropdown.classList.contains('hidden');
+
+        closeAllDropdowns(dropdown);
+
+        if (isOpen) {
+            closeDropdown(dropdown);
+        } else {
+            openDropdown(dropdown);
+        }
+        });
+    });
+
+    document.querySelectorAll('[data-dropdown]').forEach(drop => {
+        drop.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        const item = e.target.closest('li');
+        if (!item) return;
+
+        const selectedValue = item.textContent.trim();
+        const wrapper = drop.closest('.relative');
+        const btn = wrapper.querySelector('[data-toggle="dropdown"]');
+        const label = btn.querySelector('[data-label]');
+
+        if (label) label.textContent = selectedValue;
+
+        drop.querySelectorAll('li').forEach(li => {
+            li.classList.remove('bg-accent/10', 'font-medium', 'text-accent');
+        });
+        item.classList.add('bg-accent/10', 'font-medium', 'text-accent');
+
+        closeDropdown(drop);
+        });
+    });
+
+    document.addEventListener('click', (e) => {
+        const isInsideWrapper = e.target.closest('[data-dropdown], [data-toggle="dropdown"]');
+        if (!isInsideWrapper) closeAllDropdowns();
+    });
+</script>

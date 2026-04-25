@@ -1,0 +1,56 @@
+---
+import Details from "./WhyUsDetails.astro";
+
+const features = [
+  {
+    title: "Trusted Expertise",
+    description:
+      "Years of experience helping clients find homes that match their lifestyle and goals.",
+    icon: "home",
+  },
+  {
+    title: "Prime Locations",
+    description:
+      "We specialize in properties located in the most desirable neighborhoods.",
+    icon: "location_on",
+  },
+  {
+    title: "Seamless Process",
+    description:
+      "From inquiry to closing, we make buying or renting smooth and stress-free.",
+    icon: "auto_awesome",
+  },
+  {
+    title: "Premium Listings",
+    description:
+      "Carefully curated homes that meet high standards of quality and comfort.",
+    icon: "workspace_premium",
+  },
+];
+---
+
+<section class="relative z-30 bg-bg py-16 md:py-24 opacity-0 translate-y-3 animate-[fadeIn_0.6s_forwards] transition-transform duration-300 scroll-mt-10" id="services">
+  <div class="max-w-7xl mx-auto px-4 md:px-8">
+
+    <div class="text-center mb-12 md:mb-16">
+      <h2 class="font-heading text-3xl md:text-4xl text-primary mb-4">
+        Why Choose Us
+      </h2>
+      <p class="text-muted max-w-2xl mx-auto text-base md:text-lg">
+        We combine expertise, design sensibility, and market knowledge to help you
+        find a place you truly call home.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-10">
+      {features.map((feature) => (
+        <Details
+          title={feature.title}
+          description={feature.description}
+          icon={feature.icon}
+        />
+      ))}
+    </div>
+
+  </div>
+</section>

@@ -1,0 +1,100 @@
+---
+import '../styles/global.css';
+
+interface Props {
+    title? : string;
+    description? : string;
+}
+
+const {
+    title = "Real Estate Web",
+    description = "A real estate web application built with Astro and Tailwind CSS.",
+} = Astro.props
+
+---
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <link rel="canonical" href={Astro.url} />
+
+        <!-- Open Graph -->
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:url" content={Astro.url} />
+        <meta property="og:image" content="/og-image.jpg" />
+
+        <!-- Twitter -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content="/og-image.jpg" />
+
+        <!-- SEO -->
+        <meta name="robots" content="index, follow" />
+
+        <!-- Icons -->
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+        <!-- Schema -->
+        <script type="application/ld+json">
+            {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "RealEstateAgent",
+            "name": "Real Estate Web",
+            "url": Astro.url,
+            "description": description
+            })}
+        </script>
+
+        <style>
+            html, body {
+                min-height: 100vh;
+                scroll-behavior: smooth;
+                overflow: hidden | auto | scroll;
+                overscroll-behavior: none;
+            }
+        </style>
+
+    </head>
+    <body>
+        <header>
+            <slot name="header"/>
+        </header>
+        <main>
+            <slot />
+        </main>
+    </body>
+    <script type="module">
+        
+        const items = document.querySelectorAll("section");
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.classList.remove("opacity-0", "translate-y-6");
+                entry.target.classList.add("opacity-100", "translate-y-0");
+            } else {
+                entry.target.classList.remove("opacity-100", "translate-y-0");
+                entry.target.classList.add("opacity-0", "translate-y-6");
+            }
+            });
+        }, {
+            threshold: 0.2
+        });
+
+        items.forEach((el) => observer.observe(el));
+        
+    </script>
+</html>

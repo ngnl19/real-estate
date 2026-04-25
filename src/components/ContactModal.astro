@@ -1,0 +1,51 @@
+<div id="contactModal" class="fixed inset-0 flex items-center justify-center opacity-0 scale-95 transition-all duration-300">
+    <div class="absolute inset-0 bg-black/50" data-close="true"></div>
+    <div class="relative bg-white w-full max-w-lg mx-4 rounded-xl shadow-lg z-10 p-6">
+    <div class="relative flex items-center justify-center mb-6">
+      <button onclick="closeModal('contactModal')" 
+        class="absolute left-0 bottom-1 text-gray-500 hover:text-black text-4xl align-middle">
+        ←
+      </button>
+      <h2 class="font-heading text-2xl text-center">
+        Send us a message
+      </h2>
+    </div>
+    <p class="text-center text-muted mb-6">
+      Have any inquiries, suggestions, or need any help? We'd love to hear from you.
+    </p>
+    <form class="space-y-4" id="talkForm">
+      <div>
+        <label for="name" class="block text-sm mb-1">Name</label>
+        <input 
+          id="name"
+          name="name"
+          type="text"
+          autocomplete="name"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+      </div>
+      <div>
+        <label for="email" class="block text-sm mb-1">Email</label>
+        <input 
+          id="email"
+          name="email"
+          type="email"
+          autocomplete="email"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary">
+      </div>
+      <div>
+        <label for="message" class="block text-sm mb-1">Message</label>
+        <textarea 
+          id="message"
+          name="message"
+          rows="4"
+          autocomplete="off"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"></textarea>
+      </div>
+      <button type="submit"
+        class="w-full bg-primary text-white py-3 rounded-md font-semibold hover:bg-primary-dark transition cursor-pointer talk-submit-btn">
+        Send Message
+      </button>
+
+    </form>
+  </div>
+</div>

@@ -1,0 +1,130 @@
+---
+const navLinks = [
+    {label: 'Home', href: '/'},
+    {label: 'Properties', href: '/properties'},
+    {label: 'Services', href: '/services'},
+    {label: 'About', href: '/about'},
+    {label: 'Send Message', href: '/', isModal: true},
+];
+
+const isCurrentPage = (href: string) => {
+    let pathname = Astro.url.pathname;
+    if (!pathname.startsWith('/')) pathname = '/' + pathname;
+    if (!pathname.endsWith('/')) pathname += '/';
+    return pathname === href || (href !== '/' && pathname.startsWith(href));
+};
+---
+
+<footer class="relative z-40 bg-primary text-white mt-20">
+    
+    <div class="max-w-7xl mx-auto px-4 md:px-8 py-16 grid md:grid-cols-4 gap-10">
+        
+        <div>
+        <h2 class="font-heading text-2xl mb-4">Estate</h2>
+        <p class="text-sm text-gray-300 leading-relaxed">
+            Discover premium properties designed for modern living. 
+            Your dream home starts with us.
+        </p>
+        </div>
+
+        <div>
+        <h3 class="font-semibold mb-4">Navigation</h3>
+        <ul class="space-y-2 text-gray-300">
+            {navLinks.map(link => (
+                <li>
+                    <a
+                        href={link.isModal ? '#contactModal' : link.href}
+                        onclick={link.isModal ? 'openModal(\'contactModal\')' : undefined}
+                        class="hover:text-accent transition"
+                        aria-current={isCurrentPage(link.href) ? 'page' : undefined}
+                    >
+                        {link.label}
+                    </a>
+                </li>
+            ))}
+        </ul>
+        </div>
+
+        <div>
+        <h3 class="font-semibold mb-4">Contact</h3>
+        <ul class="space-y-3 text-gray-300 text-sm">
+            
+            <li class="flex items-start gap-2">
+            <span class="material-symbols-outlined text-lg">location_on</span>
+            <span>Quezon City, Philippines</span>
+            </li>
+
+            <li class="flex items-start gap-2">
+            <span class="material-symbols-outlined text-lg">call</span>
+            <span>+63 912 345 6789</span>
+            </li>
+
+            <li class="flex items-start gap-2">
+            <span class="material-symbols-outlined text-lg">mail</span>
+            <span>real@estate.com</span>
+            </li>
+
+        </ul>
+        </div>
+
+        <div>
+        <h3 class="font-semibold mb-3">Follow Us</h3>
+        <div class="flex gap-4">
+            <a href="/" class="group" aria-label="Facebook">
+            <span class="bi bi-facebook text-2xl text-gray-300 group-hover:text-accent transition" style="font-size: 20px;">
+            </span>
+            </a>
+
+            <a href="/" class="group" aria-label="Instagram">
+            <span class="bi bi-instagram text-2xl text-gray-300 group-hover:text-accent transition" style="font-size: 20px;">
+            </span>
+            </a>
+
+            <a href="/" class="group" aria-label="Threads">
+            <span class="bi bi-threads text-2xl text-gray-300 group-hover:text-accent transition" style="font-size: 20px;">
+            </span>
+            </a>
+
+            <a href="/" class="group" aria-label="TikTok">
+            <span class="bi bi-tiktok text-2xl text-gray-300 group-hover:text-accent transition" style="font-size: 20px;">
+            </span>
+            </a>
+
+        </div>
+        </div>
+
+    </div>
+
+    <div class="border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-4 md:px-8 py-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-400">
+        
+        <p>© {new Date().getFullYear()} Mark Andrew Duza. All rights reserved 2026.</p>
+        
+        <div class="flex gap-6">
+            <a href="/" class="hover:text-accent transition">Privacy Policy</a>
+            <a href="/" class="hover:text-accent transition">Terms of Service</a>
+        </div>
+
+        </div>
+    </div>
+
+    <button
+    id="scrollTopBtn"
+    onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+    aria-label="Scroll to top"
+    class="fixed bottom-6 right-6 z-50 bg-accent text-white w-11 h-11 hidden md:flex items-center justify-center rounded-full shadow-lg opacity-0 pointer-events-none transition-all duration-300 hover:scale-110 hover:shadow-xl"
+    >
+        <span class="material-symbols-outlined text-xl leading-none">arrow_upward</span>
+    </button>
+
+    <script>
+        const btn = document.getElementById('scrollTopBtn');
+
+        window.addEventListener('scroll', () => {
+            const shouldShow = window.scrollY > 300;
+            btn?.classList.toggle('opacity-0', !shouldShow);
+            btn?.classList.toggle('pointer-events-none', !shouldShow);
+            btn?.classList.toggle('opacity-100', shouldShow);
+        });
+    </script>
+</footer>
