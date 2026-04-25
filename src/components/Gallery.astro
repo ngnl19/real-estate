@@ -59,24 +59,56 @@ const images = [
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
-        {images.map((img) => (
-            <div class="overflow-hidden rounded-2xl group">
-            
-            <div class="relative">
-                <Image
+        {images.map((img, i) => (
+          <div class="overflow-hidden rounded-2xl group">
+            <div class="relative h-64 bg-gray-200 rounded-2xl skeleton-wrapper">
+
+              <div class="skeleton-shimmer absolute inset-0 rounded-2xl" />
+
+              <Image
                 src={img.src}
                 alt={img.alt}
-                loading="lazy"
-                decoding="async"
+                loading={i < 4 ? "eager" : "lazy"}
+                fetchpriority={i < 4 ? "high" : "auto"}
+                decoding={i < 4 ? "sync" : "async"}
                 format="webp"
-                class="w-full h-64 object-cover rounded-2xl transition duration-500 group-hover:scale-[1.02] transform-gpu will-change-transform"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                class="skeleton-image w-full h-64 object-cover rounded-2xl transition duration-500 group-hover:scale-[1.02] transform-gpu will-change-transform opacity-0"
                 width="1000"
                 height="800"
-                />
+                onload="this.classList.add('loaded')"
+              />
             </div>
-
-            </div>
+          </div>
         ))}
+
+      <style>
+        .skeleton-shimmer {
+          background: linear-gradient(
+            90deg,
+            transparent 0%,
+            rgba(255,255,255,0.4) 50%,
+            transparent 100%
+          );
+          background-size: 200% 100%;
+          animation: shimmer 1.4s infinite;
+        }
+
+        @keyframes shimmer {
+          0%   { background-position: -200% 0; }
+          100% { background-position:  200% 0; }
+        }
+
+        .skeleton-image.loaded {
+          opacity: 1;
+          transition: opacity 0.4s ease;
+        }
+
+        .skeleton-image.loaded ~ .skeleton-shimmer,
+        .skeleton-wrapper:has(.loaded) .skeleton-shimmer {
+          display: none;
+        }
+      </style>
 
     </div>
     <div></div>
