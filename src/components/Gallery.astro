@@ -68,12 +68,12 @@ const images = [
               <Image
                 src={img.src}
                 alt={img.alt}
-                loading={i < 4 ? "eager" : "lazy"}
+                loading={i < 4 ? "lazy" : "eager"}
                 fetchpriority={i < 4 ? "high" : "auto"}
                 decoding={i < 4 ? "sync" : "async"}
                 format="webp"
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                class="skeleton-image w-full h-64 object-cover rounded-2xl transition duration-500 group-hover:scale-[1.02] transform-gpu will-change-transform opacity-0"
+                class="skeleton-image w-full h-64 object-cover rounded-2xl transition duration-300 group-hover:scale-[1.02] transform-gpu will-change-transform opacity-0"
                 width="1000"
                 height="800"
                 onload="this.classList.add('loaded')"
@@ -114,3 +114,11 @@ const images = [
     <div></div>
   </div>
 </section>
+
+<script>
+  document.querySelectorAll('.skeleton-image').forEach((img) => {
+    if ((img as HTMLImageElement).complete && (img as HTMLImageElement).naturalWidth > 0) {
+      img.classList.add('loaded');
+    }
+  });
+</script>
